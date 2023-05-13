@@ -8,7 +8,7 @@ const productsSchema = new Schema({
   name: String,
   model: String,
   brand: String,
-  categoryId: String,
+  categoryId: mongoose.Types.ObjectId,
   });
 
 
@@ -16,7 +16,7 @@ const clientSchema  = new Schema({
     //_id: { type: mongoose.Types.ObjectId, required: true },
     name: String,
     nid: String,
-    phone, String
+    phone: String
   });
 
 
