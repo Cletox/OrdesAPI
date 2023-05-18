@@ -17,3 +17,30 @@ exports.createProduct = async (productData) => {
     throw new Error('Failed to create product');
   }
 };
+
+exports.getAllProducts = async () => {
+    try {
+      const products = await Product.find();
+      return products;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+
+  exports.updateProduct = async (productId, updateData) => {
+    try {
+      const updatedProduct = await Product.findByIdAndUpdate(productId, updateData, { new: true });
+      return updatedProduct;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  exports.deleteProduct = async (productId) => {
+    try {
+      await Product.findByIdAndDelete(productId);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
