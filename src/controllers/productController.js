@@ -1,6 +1,8 @@
 const productService = require("../functions/productFunctions");
- const productModel = require("../db/productsModel");
-// Create a new product
+const productModel = require("../db/productsModel");
+const { getProductsCount, getPaginatedProducts } = require('../paginations/productPagination');
+
+
 exports.createProduct = async (req, res) => {
   try {
     const { name, model, brand, categoryId } = req.body;
@@ -35,16 +37,32 @@ exports.getAllProducts = async (req, res) => {
     try {
 
         const categoryId = req.query.categoryId;
+        const page = parseInt(req.query.page) || 1; // Current page number
+        const limit = parseInt(req.query.limit) || 10; // Number of items per page
+        const startIndex = (page - 1) * limit; // Starting index of the current page
+        const productsCount = await getProductsCount();
+        const totalPages = Math.ceil(productsCount / limit);
 
     if (!categoryId) {
       return res.status(400).json({ message: 'categoryId is required' });
     }
-      const products = await productService.getAllProducts();
+
+    
+
+    const products = await getPaginatedProducts(startIndex, limit);
       
       return res.json({
         msg: "List of products",
         status: 201,
-        data: products
+        data: products,
+        meta: {
+          totalItems: productsCount,
+          itemsPerPage: limit,
+          totalPages: totalPages,
+          currentPage: page,
+          prevPage: page > 1 ? page - 1 : null,
+          nextPage: page < totalPages ? page + 1 : null
+        }
     });
     } catch (error) {
       res.status(500).json({ message: error.message });

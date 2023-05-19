@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const app = express();
-const router = require('./routes');
+const router = require('./routes/router');
 
 
 // Middleware
