@@ -3,14 +3,18 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const storageSchema = new Schema({
+const categoriesInventorySchema = new Schema({
   _id: { type: String, required: true },
   placeId: { type: String, required: true },
   name: { type: String, required: true },
+  taxProfileId: { type: String, required: true },
 });
 
-const storageModel = mongoose.model("storage", storageSchema); //"storage" mongo-collection
+const categoriesInventoryModel = mongoose.model(
+  "categoriesInventory",
+  categoriesInventorySchema
+); //"storage" mongo-collection
 
 module.exports = {
-  storageModel,
+  categoriesInventoryModel,
 };

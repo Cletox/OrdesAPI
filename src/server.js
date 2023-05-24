@@ -1,9 +1,8 @@
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
+const express = require("express");
+const mongoose = require("mongoose");
+require("dotenv").config();
 const app = express();
-const router = require('./routes/router');
-
+const router = require("./routes/router");
 
 // Middleware
 app.use(express.json());
@@ -15,10 +14,10 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('Connected to MongoDB');
+    console.log("Connected to MongoDB");
   })
   .catch((error) => {
-    console.error('Failed to connect to MongoDB', error);
+    console.error("Failed to connect to MongoDB", error);
   });
 
 // Routes
@@ -31,9 +30,9 @@ app.listen(PORT, () => {
 });
 
 // Gracefully close the server
-process.on('SIGINT', () => {
+process.on("SIGINT", () => {
   mongoose.connection.close(() => {
-    console.log('MongoDB connection closed');
+    console.log("MongoDB connection closed");
     process.exit(0);
   });
 });

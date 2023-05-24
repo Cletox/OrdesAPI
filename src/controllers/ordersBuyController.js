@@ -1,11 +1,11 @@
-const storageFunction = require("../functions/storageFunctions");
-const { storageModel } = require("../db/storageModel");
+const ordersBuyFunction = require("../functions/ordersBuyFunction");
+const { storageModel } = require("../db/ordersBuyModel");
 const {
-  getStorageCount,
-  getPaginatedStorage,
-} = require("../paginations/storagePagination");
+  getOrdersBuyCount,
+  getPaginatedOrdersBuy,
+} = require("../paginations/ordersBuyPagination");
 
-exports.createStorage = async (req, res) => {
+exports.createOrdersBuy = async (req, res) => {
   try {
     const { _id, placeId, name } = req.body;
     const storageData = { _id, placeId, name };
@@ -31,7 +31,7 @@ exports.createStorage = async (req, res) => {
   }
 };
 
-exports.getStorages = async (req, res) => {
+exports.getOrdersBuy = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -60,19 +60,31 @@ exports.getStorages = async (req, res) => {
   }
 };
 
-exports.updateStorage = async (req, res) => {
+exports.updateOrdersBuy = async (req, res) => {
   try {
-    const storageId = req.params._id;
-    const { _id, placeId, name } = req.body;
-    const dataToUpdate = { _id, placeId, name };
+    const ordersBuyId = req.params._id;
+    const {
+      _id,
+      productList: [],
+      providerId,
+      createdAt,
+      updatedAt,
+    } = req.body;
+    const dataToUpdate = {
+      _id,
+      productList: [],
+      providerId,
+      createdAt,
+      updatedAt,
+    };
 
     const updatedStorage = await storageFunction.updateStorage(
-      storageId,
+      ordersBuyId,
       dataToUpdate
     );
 
     return res.json({
-      msg: "updated storage ",
+      msg: "updated Orders Buy ",
       status: 200,
       data: updatedStorage,
     });
@@ -81,14 +93,14 @@ exports.updateStorage = async (req, res) => {
   }
 };
 
-exports.deleteStorage = async (req, res) => {
+exports.deleteOrdersBuy = async (req, res) => {
   try {
-    const storageId = req.params._id;
+    const ordersBuyId = req.params._id;
 
-    await storageFunction.deleteStorage(storageId);
+    await ordersBuyFunction.deleteOrderBuy(ordersBuyId);
 
     return res.json({
-      msg: "eliminated storage ",
+      msg: "eliminated Orders Buy ",
       status: 204,
     });
   } catch (error) {
