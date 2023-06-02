@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-//const Schema = mongoose.Schema;
 const { Schema } = mongoose;
 
 const productsSchema = new Schema({
@@ -38,16 +37,16 @@ const categorySchema = new Schema({
   name: { type: String, required: true }, //exam: desktop, portatil, phones,peripherals, etc
 });
 
-const productModel = mongoose.model("Product", productsSchema);
-const clientModel = mongoose.model("Client", clientSchema);
-const itemQtyModel = mongoose.model("ItemQty", itemQtySchema);
-const orderModel = mongoose.model("Order", orderSchema);
-const categoryModel = mongoose.model("Category", categorySchema);
+const Product = mongoose.model("Product", productsSchema);
+const Client = mongoose.model("Client", clientSchema);
+const ItemQty = mongoose.model("ItemQty", itemQtySchema);
+const Order = mongoose.model("Order", orderSchema);
+const Category = mongoose.model("Category", categorySchema);
 
 module.exports = {
-  productModel,
-  clientModel,
-  itemQtyModel,
-  orderModel,
-  categoryModel,
+  Product,
+  Client,
+  ItemQty,
+  Order,
+  Category
 };

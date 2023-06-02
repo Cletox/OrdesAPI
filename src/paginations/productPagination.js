@@ -1,26 +1,25 @@
-const { productModel } = require("../db/productsModel");
+// const { Product } = require("../db/productsModel");
 
-const getProductsCount = async () => {
-  try {
-    const count = await productModel.countDocuments();
-    return count;
-  } catch (error) {
-    throw new Error("Failed to get products count");
-  }
-};
+// const getProductsCount = async () => {
+//   try {
+//     const count = await Product.countDocuments();
+//     return count;
+//   } catch (error) {
+//     throw new Error("Failed to get products count");
+//   }
+// };
 
-const getPaginatedProducts = async (startIndex, limit, filters = {}) => {
-  try {
-    let query = productModel.find(filters);
+// const getPaginatedProducts = async (startIndex, limit, filters = {}) => {
+//   try {
+//     let query = await productModel.find(filters);
+//     const products = await query.skip(startIndex).limit(limit).exec();
+//     return products;
+//   } catch (error) {
+//     throw new Error("Failed to get paginated products");
+//   }
+// };
 
-    const products = await productModel.skip(startIndex).limit(limit).exec();
-    return products;
-  } catch (error) {
-    throw new Error("Failed to get paginated products");
-  }
-};
-
-module.exports = {
-  getProductsCount,
-  getPaginatedProducts,
-};
+// module.exports = {
+//   getProductsCount,
+//   getPaginatedProducts,
+// };

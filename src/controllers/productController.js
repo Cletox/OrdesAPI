@@ -1,15 +1,16 @@
 const productFunctions = require("../functions/productFunctions");
-const productModel = require("../db/productsModel");
-const {
-  getProductsCount,
-  getPaginatedProducts,
-} = require("../paginations/productPagination");
+const { Product } = require("../db/productsModel");
+// const {
+//   getProductsCount,
+//   getPaginatedProducts,
+// } = require("../paginations/productPagination");
+// const { default: mongoose } = require("mongoose");
+// const { ObjectId } = mongoose.Types;
 
-//exports.createProduct = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
-    const productData = { name, model, brand, categoryId } = req.body;
-    
+    const productData = ({ name, model, brand, categoryId } = req.body);
+
     // Validate the request body against the schema
     const product = new productModel(productData);
     const validationError = product.validateSync();
@@ -36,15 +37,17 @@ const getAllProducts = async (req, res) => {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
     const startIndex = (page - 1) * limit; // Starting index of the current page
-    const productsCount = await getProductsCount();
+    const productsCount = await Product.countDocuments();
     const totalPages = Math.ceil(productsCount / limit);
 
-    const criteria = req.params.criteria;
-    const products = await getPaginatedProducts(startIndex, limit, criteria);
+    const criteria = req.params.criteria || {};
+    // const products = await getPaginatedProducts(startIndex, limit, criteria);
+    // Otro método:
+    const products = await Product.find(criteria).skip(startIndex).limit(limit).exec();
 
     return res.json({
-      msg: "List of paginated products ",
-      status: 201,
+      msg: "List of paginated products.",
+      status: 200,
       data: products,
       meta: {
         totalItems: productsCount,
@@ -100,5 +103,5 @@ module.exports = {
   createProduct,
   getAllProducts,
   updateProduct,
-  deleteProduct
-}
+  deleteProduct,
+};
