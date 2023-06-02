@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-exports.createTransactionInventory = async (transactionData) => {
+const createTransactionInventory = async (transactionData) => {
   try {
     const createdTransaction = await transactionsInventoryModel.create(
       transactionData
@@ -20,7 +20,7 @@ exports.createTransactionInventory = async (transactionData) => {
   }
 };
 
-exports.getAllTransactionsInventory = async () => {
+const getAllTransactionsInventory = async () => {
   try {
     const transactions = await transactionsInventoryModel.find();
     return transactions;
@@ -29,7 +29,7 @@ exports.getAllTransactionsInventory = async () => {
   }
 };
 
-exports.updateTransactionInventory = async (transactionId, updateData) => {
+const updateTransactionInventory = async (transactionId, updateData) => {
   try {
     const updatedTransaction =
       await transactionsInventoryModel.findByIdAndUpdate(
@@ -43,10 +43,17 @@ exports.updateTransactionInventory = async (transactionId, updateData) => {
   }
 };
 
-exports.deleteTransactionInventory = async (transactionId) => {
+const deleteTransactionInventory = async (transactionId) => {
   try {
     await transactionsInventoryModel.findByIdAndDelete(transactionId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createTransactionInventory,
+  getAllTransactionsInventory,
+  updateTransactionInventory,
+  deleteTransactionInventory
+}

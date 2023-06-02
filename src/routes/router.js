@@ -4,20 +4,16 @@ const productController = require("../controllers/productController");
 const storageController = require("../controllers/storageController");
 const categoriesInventoryController = require("../controllers/categoriesInventoryController");
 const inventoryController = require("../controllers/inventoryController");
-const transactionsInventoryController = require("../controllers/transactionsInventoryController");
+const transactionsInventoryController = require("../controllers/transtacionsInventoryController"); 
 const ordersBuyController = require("../controllers/ordersBuyController");
 const creditsController = require("../controllers/creditsController");
 const transactionsCreditsController = require("../controllers/transactionsCreditsController");
-const invoiceController = require("../controllers/invoiceController");
-const categoryTransactionController = require("../controllers/categoryTransactionController");
+const invoiceController = require("../controllers/invoicesController");
+const categoryTransactionController = require("../controllers/categoryTransactionsController");
 const transactionController = require("../controllers/transactionController");
 
 // product routers
-router.post(
-  "/products",
-  validateCreateProduct,
-  productController.createProduct
-);
+router.post(  "/products", productController.createProduct);
 router.get("/products", productController.getAllProducts);
 router.put("/products", productController.updateProduct);
 router.delete("/products", productController.deleteProduct);
@@ -29,22 +25,10 @@ router.put("/storage", storageController.updateStorage);
 router.delete("/storage", storageController.deleteStorage);
 
 //categorie invetory routers
-router.post(
-  "/categorieInventory",
-  categoriesInventoryController.createCategoriesInventory
-);
-router.get(
-  "/categorieInventory",
-  categoriesInventoryController.getCategoriesInventory
-);
-router.put(
-  "/categorieInventory",
-  categoriesInventoryController.updateCategoriesInventory
-);
-router.delete(
-  "/categorieInventory",
-  categoriesInventoryController.deleteCategoriesInventory
-);
+router.post(  "/categorieInventory",  categoriesInventoryController.createCategoriesInventory);
+router.get(  "/categorieInventory",  categoriesInventoryController.getCategoriesInventory);
+router.put(  "/categorieInventory",  categoriesInventoryController.updateCategoriesInventory);
+router.delete(  "/categorieInventory",  categoriesInventoryController.deleteCategoriesInventory);
 
 // invetory routers
 router.post("/inventory", inventoryController.createInventory);
@@ -53,80 +37,45 @@ router.put("/inventory", inventoryController.updateInventory);
 router.delete("/inventory", inventoryController.deleteInventory);
 
 // Transactions Inventory routes
-router.post(
-  "/transactionsInventory",
-  transactionsInventoryController.createTransactionInventory
-);
-router.get(
-  "/transactionsInventory",
-  transactionsInventoryController.getAllTransactionsInventory
-);
-router.put(
-  "/transactionsInventory",
-  transactionsInventoryController.updateTransactionInventory
-);
-router.delete(
-  "/transactionsInventory",
-  transactionsInventoryController.deleteTransactionInventory
-);
+router.post(  "/transactionsInventory",  transactionsInventoryController.createTranstacionsInventory);
+router.get(  "/transactionsInventory",  transactionsInventoryController.getSTranstacionsInventory);
+router.put(  "/transactionsInventory",  transactionsInventoryController.updateTranstacionsInventory);
+router.delete(  "/transactionsInventory",  transactionsInventoryController.deleteTranstacionsInventory);
 
 // Orders Buy routes
-router.post("/ordersBuy", ordersBuyController.createOrderBuy);
-router.get("/ordersBuy", ordersBuyController.getAllOrdersBuy);
-router.put("/ordersBuy", ordersBuyController.updateOrderBuy);
-router.delete("/ordersBuy", ordersBuyController.deleteOrderBuy);
+router.post("/ordersBuy", ordersBuyController.createOrdersBuy);
+router.get("/ordersBuy", ordersBuyController.getOrdersBuy);
+router.put("/ordersBuy", ordersBuyController.updateOrdersBuy);
+router.delete("/ordersBuy", ordersBuyController.deleteOrdersBuy);
 
 // Credits routes
 router.post("/credits", creditsController.createCredit);
-router.get("/credits", creditsController.getAllCredits);
+router.get("/credits", creditsController.getCredits);
 router.put("/credits", creditsController.updateCredit);
-router.delete("/credits", creditsController.deleteCredit);
+router.delete("/credits", creditsController.deleteCredits);
 
 // Transactions Credits routes
-router.post(
-  "/transactionsCredits",
-  transactionsCreditsController.createTransactionCredit
-);
-router.get(
-  "/transactionsCredits",
-  transactionsCreditsController.getAllTransactionsCredits
-);
-router.put(
-  "/transactionsCredits",
-  transactionsCreditsController.updateTransactionCredit
-);
-router.delete(
-  "/transactionsCredits",
-  transactionsCreditsController.deleteTransactionCredit
-);
+router.post(  "/transactionsCredits",  transactionsCreditsController.createTransactionsCredits);
+router.get(  "/transactionsCredits",  transactionsCreditsController.getTransactionsCredits);
+router.put(  "/transactionsCredits",  transactionsCreditsController.updateTransactionsCredits);
+router.delete(  "/transactionsCredits",  transactionsCreditsController.deleteTransactionsCredits);
 
 // Invoice routes
 router.post("/invoice", invoiceController.createInvoice);
-router.get("/invoice", invoiceController.getAllInvoices);
+router.get("/invoice", invoiceController.getInvoices);
 router.put("/invoice", invoiceController.updateInvoice);
 router.delete("/invoice", invoiceController.deleteInvoice);
 
 // Category Transaction routes
 router.post(
-  "/categoryTransaction",
-  categoryTransactionController.createCategoryTransaction
-);
-router.get(
-  "/categoryTransaction",
-  categoryTransactionController.getAllCategoryTransactions
-);
-router.put(
-  "/categoryTransaction",
-  categoryTransactionController.updateCategoryTransaction
-);
-router.delete(
-  "/categoryTransaction",
-  categoryTransactionController.deleteCategoryTransaction
-);
+  "/categoryTransaction",  categoryTransactionController.createCategoryTransaction);
+router.get(  "/categoryTransaction",  categoryTransactionController.getCategoryTransactions);
+router.put(  "/categoryTransaction",  categoryTransactionController.updateCategoryTransaction);
+router.delete(  "/categoryTransaction",  categoryTransactionController.deleteCategoryTransaction);
 
 // Transaction routes
 router.post("/transaction", transactionController.createTransaction);
-router.get("/transaction", transactionController.getAllTransactions);
+router.get("/transaction", transactionController.getTransactions);
 router.put("/transaction", transactionController.updateTransaction);
 router.delete("/transaction", transactionController.deleteTransaction);
 

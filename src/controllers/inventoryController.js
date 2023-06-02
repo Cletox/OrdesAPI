@@ -5,10 +5,9 @@ const {
   getPaginatedInventory,
 } = require("../paginations/inventoryPagination");
 
-exports.createInventory = async (req, res) => {
+const createInventory = async (req, res) => {
   try {
-    const {
-      _id,
+      const inventoryData = {
       productInventory,
       quanty,
       quantyMin,
@@ -16,17 +15,7 @@ exports.createInventory = async (req, res) => {
       placeId,
       createAt,
       upadteAt,
-    } = req.body;
-    const inventoryData = {
-      _id,
-      productInventory,
-      quanty,
-      quantyMin,
-      storageId,
-      placeId,
-      createAt,
-      upadteAt,
-    };
+    }= req.body;
 
     // Validate the request body against the schema
     const inventoty = new inventoryModel(inventoryData);
@@ -51,7 +40,7 @@ exports.createInventory = async (req, res) => {
   }
 };
 
-exports.getInventories = async (req, res) => {
+const getInventories = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -84,7 +73,7 @@ exports.getInventories = async (req, res) => {
   }
 };
 
-exports.updateInventory = async (req, res) => {
+const updateInventory = async (req, res) => {
   try {
     const inventoryId = req.params._id;
     const {
@@ -123,7 +112,7 @@ exports.updateInventory = async (req, res) => {
   }
 };
 
-exports.deleteInventory = async (req, res) => {
+const deleteInventory = async (req, res) => {
   try {
     const inventoryId = req.params._id;
 
@@ -137,3 +126,11 @@ exports.deleteInventory = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+module.exports = {
+  createInventory,
+  getInventories,
+  updateInventory,
+  deleteInventory
+}

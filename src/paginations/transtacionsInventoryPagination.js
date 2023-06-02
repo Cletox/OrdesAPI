@@ -19,13 +19,9 @@ const getPaginatedTransactionsInventory = async (
   filters = {}
 ) => {
   try {
-    let query = transactionsInventoryModel.find();
+    let query = transactionsInventoryModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const transactionsInventory = await query.skip(startIndex).limit(limit);
+    const transactionsInventory = await query.skip(startIndex).limit(limit).exec();
     return transactionsInventory;
   } catch (error) {
     throw new Error("Failed to get paginated transactions inventory");

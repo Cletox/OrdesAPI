@@ -13,13 +13,9 @@ const getInvoicesCount = async (filters = []) => {
 
 const getPaginatedInvoices = async (startIndex, limit, filters = {}) => {
   try {
-    let query = invoicesModel.find();
+    let query = invoicesModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const invoices = await query.skip(startIndex).limit(limit);
+    const invoices = await query.skip(startIndex).limit(limit).exec();
     return invoices;
   } catch (error) {
     throw new Error("Failed to get paginated invoices");

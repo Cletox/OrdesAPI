@@ -11,13 +11,9 @@ const getProductsCount = async () => {
 
 const getPaginatedProducts = async (startIndex, limit, filters = {}) => {
   try {
-    let query = productModel.find();
+    let query = productModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const products = await productModel.skip(startIndex).limit(limit);
+    const products = await productModel.skip(startIndex).limit(limit).exec();
     return products;
   } catch (error) {
     throw new Error("Failed to get paginated products");

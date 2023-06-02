@@ -8,7 +8,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Create a new product
-exports.createProduct = async (productData) => {
+const createProduct = async (productData) => {
   try {
     const createdProduct = await productModel.create(productData);
     return createdProduct;
@@ -17,7 +17,7 @@ exports.createProduct = async (productData) => {
   }
 };
 
-exports.getAllProducts = async () => {
+const getAllProducts = async () => {
   try {
     const products = await productModel.find();
     return products;
@@ -26,7 +26,7 @@ exports.getAllProducts = async () => {
   }
 };
 
-exports.updateProduct = async (productId, updateData) => {
+const updateProduct = async (productId, updateData) => {
   try {
     const updatedProduct = await productModel.findByIdAndUpdate(
       productId,
@@ -39,10 +39,17 @@ exports.updateProduct = async (productId, updateData) => {
   }
 };
 
-exports.deleteProduct = async (productId) => {
+const deleteProduct = async (productId) => {
   try {
     await productModel.findByIdAndDelete(productId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createProduct,
+  getAllProducts,
+  updateProduct,
+  deleteProduct
+}

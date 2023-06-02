@@ -5,11 +5,11 @@ const {
   getPaginatedProducts,
 } = require("../paginations/productPagination");
 
-exports.createProduct = async (req, res) => {
+//exports.createProduct = async (req, res) => {
+const createProduct = async (req, res) => {
   try {
-    const { name, model, brand, categoryId } = req.body;
-    const productData = { name, model, brand, categoryId };
-
+    const productData = { name, model, brand, categoryId } = req.body;
+    
     // Validate the request body against the schema
     const product = new productModel(productData);
     const validationError = product.validateSync();
@@ -31,7 +31,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-exports.getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -60,7 +60,7 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-exports.updateProduct = async (req, res) => {
+const updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
     const { name, model, brand, categoryId } = req.body;
@@ -81,7 +81,7 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-exports.deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
 
@@ -95,3 +95,10 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = {
+  createProduct,
+  getAllProducts,
+  updateProduct,
+  deleteProduct
+}

@@ -8,7 +8,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Create a new product
-exports.createInventory = async (storageData) => {
+const createInventory = async (storageData) => {
   try {
     const createdInventory = await inventoryModel.create(storageData);
     return createdInventory;
@@ -17,7 +17,7 @@ exports.createInventory = async (storageData) => {
   }
 };
 
-exports.getAllInventory = async () => {
+const getAllInventory = async () => {
   try {
     const inventory = await inventoryModel.find();
     return inventory;
@@ -26,7 +26,7 @@ exports.getAllInventory = async () => {
   }
 };
 
-exports.updateInventory = async (inventoryId, updateData) => {
+const updateInventory = async (inventoryId, updateData) => {
   try {
     const updatedInventory = await inventoryModel.findByIdAndUpdate(
       inventoryId,
@@ -39,10 +39,17 @@ exports.updateInventory = async (inventoryId, updateData) => {
   }
 };
 
-exports.deleteInventory = async (inventoryId) => {
+const deleteInventory = async (inventoryId) => {
   try {
     await inventoryModel.findByIdAndDelete(inventoryId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createInventory,
+  getAllInventory,
+  updateInventory,
+  deleteInventory
+}

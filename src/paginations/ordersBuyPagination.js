@@ -13,13 +13,10 @@ const getOrdersBuyCount = async (filters = []) => {
 
 const getPaginatedOrdersBuy = async (startIndex, limit, filters = {}) => {
   try {
-    let query = ordersBuyModel.find();
+    let query = ordersBuyModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
 
-    const ordersBuy = await query.skip(startIndex).limit(limit);
+    const ordersBuy = await query.skip(startIndex).limit(limit).exec();
     return ordersBuy;
   } catch (error) {
     throw new Error("Failed to get paginated orders buy");

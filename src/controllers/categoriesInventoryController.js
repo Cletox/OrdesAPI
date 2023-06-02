@@ -5,10 +5,9 @@ const {
   getPaginatedCategoriesInventory,
 } = require("../paginations/categoriesInventoryPagination");
 
-exports.createCategoriesInventory = async (req, res) => {
+const createCategoriesInventory = async (req, res) => {
   try {
-    const { _id, placeId, name, taxProfileId } = req.body;
-    const categoriesInventoryData = { _id, placeId, name, taxProfileId };
+    const categoriesInventoryData = { placeId, name, taxProfileId } = req.body;
 
     // Validate the request body against the schema
     const categoriesInventory = new categoriesInventoryModel(
@@ -36,7 +35,7 @@ exports.createCategoriesInventory = async (req, res) => {
   }
 };
 
-exports.getCategoriesInventory = async (req, res) => {
+const getCategoriesInventory = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -69,11 +68,10 @@ exports.getCategoriesInventory = async (req, res) => {
   }
 };
 
-exports.updateCategoriesInventory = async (req, res) => {
+const updateCategoriesInventory = async (req, res) => {
   try {
     const categorieInventoryId = req.params._id;
-    const { _id, placeId, name, taxProfileId } = req.body;
-    const dataToUpdate = { _id, placeId, name, taxProfileId };
+    const dataToUpdate = { placeId, name, taxProfileId } = req.body ;
 
     const updatedCategorieInvetory =
       await caterogiesInventoryFunction.updateCategoriesInventory(
@@ -91,7 +89,7 @@ exports.updateCategoriesInventory = async (req, res) => {
   }
 };
 
-exports.deleteCategoriesInventory = async (req, res) => {
+const deleteCategoriesInventory = async (req, res) => {
   try {
     const categorieInventoryId = req.params._id;
 
@@ -107,3 +105,10 @@ exports.deleteCategoriesInventory = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = {
+  createCategoriesInventory,
+  getCategoriesInventory,
+  updateCategoriesInventory,
+  deleteCategoriesInventory,
+}

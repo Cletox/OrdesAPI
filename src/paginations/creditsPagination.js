@@ -13,13 +13,9 @@ const getCreditsCount = async (filters = []) => {
 
 const getPaginatedCredits = async (startIndex, limit, filters = {}) => {
   try {
-    let query = creditsModel.find();
+    let query = creditsModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const credits = await query.skip(startIndex).limit(limit);
+    const credits = await query.skip(startIndex).limit(limit).exec();
     return credits;
   } catch (error) {
     throw new Error("Failed to get paginated credits");

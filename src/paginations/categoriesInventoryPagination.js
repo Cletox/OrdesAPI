@@ -17,14 +17,11 @@ const getPaginatedCategoriesInventory = async (
   filters = {}
 ) => {
   try {
-    let query = categoriesInventoryModel.find();
-
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const storage = await query.skip(startIndex).limit(limit);
-    return storage;
+    let query = categoriesInventoryModel.find(filters); // use case more concise
+    //const query = categoriesInventoryModel.find().and(filters); //provide flexibility by aloowing more filters,sorts optiones, etc
+    
+    const categoriesInventory = await query.skip(startIndex).limit(limit).exec();
+    return categoriesInventory;
   } catch (error) {
     throw new Error("Failed to get paginated categories Inventory ");
   }

@@ -5,17 +5,15 @@ const {
   getPaginatedCredits,
 } = require("../paginations/creditsPagination");
 
-exports.createCredit = async (req, res) => {
+const createCredit = async (req, res) => {
   try {
-    const { _id, clientId, placeId, quanty, createdAt, updatedAt } = req.body;
     const creditsData = {
-      _id,
       clientId,
       placeId,
       quanty,
       createdAt,
       updatedAt,
-    };
+    } = req.body;
 
     // Validate the request body against the schema
     const credits = new creditsModel(creditsData);
@@ -38,7 +36,7 @@ exports.createCredit = async (req, res) => {
   }
 };
 
-exports.getCredits = async (req, res) => {
+const getCredits = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -67,18 +65,11 @@ exports.getCredits = async (req, res) => {
   }
 };
 
-exports.updateCredit = async (req, res) => {
+const updateCredit = async (req, res) => {
   try {
     const creditsId = req.params._id;
-    const { _id, clientId, placeId, quanty, createdAt, updatedAt } = req.body;
-    const dataToUpdate = {
-      _id,
-      clientId,
-      placeId,
-      quanty,
-      createdAt,
-      updatedAt,
-    };
+    const dataToUpdate = ({ clientId, placeId, quanty, createdAt, updatedAt } =
+      req.body);
 
     const updatedCredit = await creditsFunction.updateCredit(
       creditsId,
@@ -95,7 +86,7 @@ exports.updateCredit = async (req, res) => {
   }
 };
 
-exports.deleteCredits = async (req, res) => {
+const deleteCredits = async (req, res) => {
   try {
     const creditsId = req.params._id;
 
@@ -108,3 +99,11 @@ exports.deleteCredits = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+module.exports = {
+  createCredit,
+  getCredits,
+  updateCredit,
+  deleteCredits
+}

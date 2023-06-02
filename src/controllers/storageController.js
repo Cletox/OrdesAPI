@@ -5,10 +5,9 @@ const {
   getPaginatedStorage,
 } = require("../paginations/storagePagination");
 
-exports.createStorage = async (req, res) => {
+const createStorage = async (req, res) => {
   try {
-    const { _id, placeId, name } = req.body;
-    const storageData = { _id, placeId, name };
+    const storageData = {  placeId, name } = req.body;
 
     // Validate the request body against the schema
     const storage = new storageModel(storageData);
@@ -31,17 +30,18 @@ exports.createStorage = async (req, res) => {
   }
 };
 
-exports.getStorages = async (req, res) => {
+const getStorages = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
     const startIndex = (page - 1) * limit; // Starting index of the current page
     const storageCount = await getStorageCount();
     const totalPages = Math.ceil(storageCount / limit);
-
-    const criteria = req.params.criteria;
-    const storages = await getPaginatedStorage(startIndex, limit, criteria);
-
+    //const criteria = req.params.criteria;
+       
+   //const storages = await getPaginatedStorage(startIndex, limit);
+const storages = await getPaginatedStorage(startIndex, limit);
+console.log('Storages in controller:', storages);
     return res.json({
       msg: "List of paginated storages ",
       status: 201,
@@ -60,7 +60,7 @@ exports.getStorages = async (req, res) => {
   }
 };
 
-exports.updateStorage = async (req, res) => {
+const updateStorage = async (req, res) => {
   try {
     const storageId = req.params._id;
     const { _id, placeId, name } = req.body;
@@ -81,11 +81,11 @@ exports.updateStorage = async (req, res) => {
   }
 };
 
-exports.deleteStorage = async (req, res) => {
+const deleteStorage = async (req, res) => {
   try {
     const storageId = req.params._id;
 
-    await storageFunction.deleteStorage(storageId);
+        await storageFunction.deleteStorage(storageId);
 
     return res.json({
       msg: "eliminated storage ",
@@ -95,3 +95,10 @@ exports.deleteStorage = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = {
+  createStorage,
+  getStorages,
+  updateStorage,
+  deleteStorage,
+}

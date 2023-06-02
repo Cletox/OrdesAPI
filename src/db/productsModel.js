@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
+//const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const productsSchema = new Schema({
   name: { type: String, required: true },
@@ -21,9 +22,10 @@ const clientSchema = new Schema({
 });
 
 const itemQtySchema = new Schema({
-  qty: { type: number, required: true },
-  productId: { type: mongoose.Types.ObjectId, required: true },
-  ref: "productsSchema",
+  qty: { type: Number, required: true },
+  productId: { type: mongoose.Types.ObjectId, required: true,
+  ref: "products",
+}
 });
 
 const orderSchema = new Schema({

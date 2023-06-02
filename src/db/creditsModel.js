@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const creditsSchema = new Schema({
-  _id: { type: String, required: true },
+  //_id: { type: mongoose.Types.ObjectId, required: true },
   clientId: { type: String, unique: true },
   placeId: { type: String, required: true },
   quantity: { type: Number, required: true },

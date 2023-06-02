@@ -1,15 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
+//const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const storageSchema = new Schema({
-  _id: { type: String, required: true },
+  //_id: { type: mongoose.Types.ObjectId, required: true },
   placeId: { type: String, required: true },
   name: { type: String, required: true },
 });
 
-const storageModel = mongoose.model("storage", storageSchema); //"storage" mongo-collection
+const storageModel = mongoose.model("Storage", storageSchema); //"storage" mongo-collection
 
 module.exports = {
   storageModel,

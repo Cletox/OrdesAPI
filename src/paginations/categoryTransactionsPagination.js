@@ -19,13 +19,9 @@ const getPaginatedCategoryTransactions = async (
   filters = {}
 ) => {
   try {
-    let query = categoryTransactionsModel.find();
+    let query = categoryTransactionsModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const categoryTransactions = await query.skip(startIndex).limit(limit);
+    const categoryTransactions = await query.skip(startIndex).limit(limit).exec();
     return categoryTransactions;
   } catch (error) {
     throw new Error("Failed to get paginated category transactions");

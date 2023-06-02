@@ -13,13 +13,9 @@ const getInventoryCount = async (filters = []) => {
 
 const getPaginatedInventory = async (startIndex, limit, filters = {}) => {
   try {
-    let query = inventoryModel.find();
+    let query = inventoryModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const inventory = await query.skip(startIndex).limit(limit);
+    const inventory = await query.skip(startIndex).limit(limit).exec();
     return inventory;
   } catch (error) {
     throw new Error("Failed to get paginated inventories");

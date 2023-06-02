@@ -5,19 +5,17 @@ const {
   getPaginatedTransactionsCredits,
 } = require("../paginations/transactionsCreditsPagination");
 
-exports.createTransactionsCredits = async (req, res) => {
+const createTransactionsCredits = async (req, res) => {
   try {
-    const { _id, clientId, placeId, add, quanty, createdAt, updatedAt } =
-      req.body;
     const transactionsCreditsData = {
-      _id,
       clientId,
       placeId,
       add,
       quanty,
       createdAt,
       updatedAt,
-    };
+    } =
+    req.body;
 
     // Validate the request body against the schema
     const transactionsCredits = new transactionsCreditsModel(
@@ -45,7 +43,7 @@ exports.createTransactionsCredits = async (req, res) => {
   }
 };
 
-exports.getTransactionsCredits = async (req, res) => {
+const getTransactionsCredits = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -78,7 +76,7 @@ exports.getTransactionsCredits = async (req, res) => {
   }
 };
 
-exports.updateTransactionsCredits = async (req, res) => {
+const updateTransactionsCredits = async (req, res) => {
   try {
     const transactionsCreditsId = req.params._id;
     const { _id, clientId, placeId, add, quanty, createdAt, updatedAt } =
@@ -109,7 +107,7 @@ exports.updateTransactionsCredits = async (req, res) => {
   }
 };
 
-exports.deleteTransactionsCredits = async (req, res) => {
+const deleteTransactionsCredits = async (req, res) => {
   try {
     const transactionsCreditsId = req.params._id;
 
@@ -124,3 +122,10 @@ exports.deleteTransactionsCredits = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = {
+  createTransactionsCredits,
+  getTransactionsCredits,
+  updateTransactionsCredits,
+  deleteTransactionsCredits,
+}

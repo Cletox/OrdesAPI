@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-exports.createCategoryTransaction = async (categoryData) => {
+const createCategoryTransaction = async (categoryData) => {
   try {
     const createdCategory = await categoryTransactionsModel.create(
       categoryData
@@ -20,7 +20,7 @@ exports.createCategoryTransaction = async (categoryData) => {
   }
 };
 
-exports.getAllCategoryTransactions = async () => {
+const getAllCategoryTransactions = async () => {
   try {
     const categories = await categoryTransactionsModel.find();
     return categories;
@@ -29,7 +29,7 @@ exports.getAllCategoryTransactions = async () => {
   }
 };
 
-exports.updateCategoryTransaction = async (categoryId, updateData) => {
+const updateCategoryTransaction = async (categoryId, updateData) => {
   try {
     const updatedCategory = await categoryTransactionsModel.findByIdAndUpdate(
       categoryId,
@@ -42,10 +42,17 @@ exports.updateCategoryTransaction = async (categoryId, updateData) => {
   }
 };
 
-exports.deleteCategoryTransaction = async (categoryId) => {
+const deleteCategoryTransaction = async (categoryId) => {
   try {
     await categoryTransactionsModel.findByIdAndDelete(categoryId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createCategoryTransaction,
+  getAllCategoryTransactions,
+  updateCategoryTransaction,
+  deleteCategoryTransaction
+}

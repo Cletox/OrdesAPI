@@ -5,21 +5,9 @@ const {
   getPaginatedProvider,
 } = require("../paginations/providerPagination");
 
-exports.createProvider = async (req, res) => {
+const createProvider = async (req, res) => {
   try {
-    const {
-      _id,
-      nameCompany,
-      email,
-      phonesArray,
-      nameContact,
-      direction,
-      city,
-      state,
-      country,
-    } = req.body;
     const providereData = {
-      _id,
       nameCompany,
       email,
       phonesArray,
@@ -28,7 +16,7 @@ exports.createProvider = async (req, res) => {
       city,
       state,
       country,
-    };
+    }= req.body;
 
     // Validate the request body against the schema
     const provider = new storageModel(providereData);
@@ -53,7 +41,7 @@ exports.createProvider = async (req, res) => {
   }
 };
 
-exports.getProviders = async (req, res) => {
+const getProviders = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -82,7 +70,7 @@ exports.getProviders = async (req, res) => {
   }
 };
 
-exports.updateProvider = async (req, res) => {
+const updateProvider = async (req, res) => {
   try {
     const providerId = req.params._id;
     const {
@@ -123,7 +111,7 @@ exports.updateProvider = async (req, res) => {
   }
 };
 
-exports.deleteProvider = async (req, res) => {
+const deleteProvider = async (req, res) => {
   try {
     const providerId = req.params._id;
 
@@ -137,3 +125,11 @@ exports.deleteProvider = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+module.exports = {
+  createProvider,
+  getProviders,
+  updateProvider,
+  deleteProvider
+}

@@ -5,10 +5,9 @@ const {
   getPaginatedTransactions,
 } = require("../paginations/transactionsPagination");
 
-exports.createTransaction = async (req, res) => {
+const createTransaction = async (req, res) => {
   try {
-    const {
-      _id,
+       const transactionData = {
       placeId,
       categoryTransactionsId,
       value,
@@ -16,15 +15,6 @@ exports.createTransaction = async (req, res) => {
       createdAt,
       updatedAt,
     } = req.body;
-    const transactionData = {
-      _id,
-      placeId,
-      categoryTransactionsId,
-      value,
-      add,
-      createdAt,
-      updatedAt,
-    };
 
     // Validate the request body against the schema
     const transaction = new transactionsModel(transactionData);
@@ -49,7 +39,7 @@ exports.createTransaction = async (req, res) => {
   }
 };
 
-exports.getTransactions = async (req, res) => {
+const getTransactions = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -82,7 +72,7 @@ exports.getTransactions = async (req, res) => {
   }
 };
 
-exports.updateTransaction = async (req, res) => {
+const updateTransaction = async (req, res) => {
   try {
     const transactionId = req.params._id;
     const {
@@ -120,7 +110,7 @@ exports.updateTransaction = async (req, res) => {
   }
 };
 
-exports.deleteTransaction = async (req, res) => {
+const deleteTransaction = async (req, res) => {
   try {
     const transactionId = req.params._id;
 
@@ -133,3 +123,11 @@ exports.deleteTransaction = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+module.exports = {
+  createTransaction,
+  getTransactions,
+  updateTransaction,
+  deleteTransaction
+}

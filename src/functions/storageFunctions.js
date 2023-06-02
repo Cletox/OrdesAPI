@@ -8,7 +8,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Create a new product
-exports.createStorage = async (storageData) => {
+const createStorage = async (storageData) => {
   try {
     const createdStorage = await storageModel.create(storageData);
     return createdStorage;
@@ -17,16 +17,17 @@ exports.createStorage = async (storageData) => {
   }
 };
 
-exports.getAllStorage = async () => {
+const getAllStorage = async () => {
   try {
-    const storages = await storageModel.find();
+    const storages = await storageModel.find({});
+    console.log("storages from functions: " , storages);
     return storages;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-exports.updateStorage = async (storageId, updateData) => {
+const updateStorage = async (storageId, updateData) => {
   try {
     const updatedStorage = await storageModel.findByIdAndUpdate(
       storageId,
@@ -39,10 +40,17 @@ exports.updateStorage = async (storageId, updateData) => {
   }
 };
 
-exports.deleteStorage = async (storageId) => {
+const deleteStorage = async (storageId) => {
   try {
     await storageModel.findByIdAndDelete(storageId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createStorage,
+  getAllStorage,
+  updateStorage,
+  deleteStorage
+}

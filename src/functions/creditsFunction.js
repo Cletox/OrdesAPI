@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-exports.createCredit = async (creditData) => {
+const createCredit = async (creditData) => {
   try {
     const createdCredit = await creditsModel.create(creditData);
     return createdCredit;
@@ -16,7 +16,7 @@ exports.createCredit = async (creditData) => {
   }
 };
 
-exports.getAllCredits = async () => {
+const getAllCredits = async () => {
   try {
     const credits = await creditsModel.find();
     return credits;
@@ -25,7 +25,7 @@ exports.getAllCredits = async () => {
   }
 };
 
-exports.updateCredit = async (creditId, updateData) => {
+const updateCredit = async (creditId, updateData) => {
   try {
     const updatedCredit = await creditsModel.findByIdAndUpdate(
       creditId,
@@ -38,10 +38,17 @@ exports.updateCredit = async (creditId, updateData) => {
   }
 };
 
-exports.deleteCredit = async (creditId) => {
+const deleteCredit = async (creditId) => {
   try {
     await creditsModel.findByIdAndDelete(creditId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createCredit,
+  getAllCredits,
+  updateCredit,
+  deleteCredit
+}

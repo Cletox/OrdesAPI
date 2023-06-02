@@ -5,9 +5,9 @@ const {
   getPaginatedInvoices,
 } = require("../paginations/invoicesPagination");
 
-exports.createInvoice = async (req, res) => {
+const createInvoice = async (req, res) => {
   try {
-    const {
+   const invoiceData = {
       placeId,
       clientId,
       taxProfileId,
@@ -15,16 +15,7 @@ exports.createInvoice = async (req, res) => {
       paymentId,
       createdAt,
       updatedAt,
-    } = req.body;
-    const invoiceData = {
-      placeId,
-      clientId,
-      taxProfileId,
-      invoice,
-      paymentId,
-      createdAt,
-      updatedAt,
-    };
+    }= req.body;
 
     // Validate the request body against the schema
     const invoices = new invoicesModel(invoiceData);
@@ -47,7 +38,7 @@ exports.createInvoice = async (req, res) => {
   }
 };
 
-exports.getInvoices = async (req, res) => {
+const getInvoices = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -59,7 +50,7 @@ exports.getInvoices = async (req, res) => {
     const invoices = await getPaginatedInvoices(startIndex, limit, criteria);
 
     return res.json({
-      msg: "List of paginated transactions Credits ",
+      msg: "List of invoices paginated  ",
       status: 201,
       data: invoices,
       meta: {
@@ -76,7 +67,7 @@ exports.getInvoices = async (req, res) => {
   }
 };
 
-exports.updateInvoice = async (req, res) => {
+const updateInvoice = async (req, res) => {
   try {
     const invoiceId = req.params._id;
     const {
@@ -113,7 +104,7 @@ exports.updateInvoice = async (req, res) => {
   }
 };
 
-exports.deleteInvoice = async (req, res) => {
+const deleteInvoice = async (req, res) => {
   try {
     const invoiceId = req.params._id;
 
@@ -126,3 +117,10 @@ exports.deleteInvoice = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = {
+  createInvoice,
+  getInvoices,
+  updateInvoice,
+  deleteInvoice
+}

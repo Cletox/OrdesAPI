@@ -8,7 +8,7 @@ mongoose.connect(process.env.MONGO_URI, {
 });
 
 // Create a new product
-exports.createProvider = async (storageData) => {
+const createProvider = async (storageData) => {
   try {
     const createdProviders = await providersModel.create(storageData);
     return createdProviders;
@@ -17,7 +17,7 @@ exports.createProvider = async (storageData) => {
   }
 };
 
-exports.getAllProviders = async () => {
+const getAllProviders = async () => {
   try {
     const providers = await providersModel.find();
     return providers;
@@ -26,7 +26,7 @@ exports.getAllProviders = async () => {
   }
 };
 
-exports.updateProvider = async (providerId, updateData) => {
+const updateProvider = async (providerId, updateData) => {
   try {
     const updatedProvider = await providersModel.findByIdAndUpdate(
       providerId,
@@ -39,10 +39,17 @@ exports.updateProvider = async (providerId, updateData) => {
   }
 };
 
-exports.deleteProvider = async (providerId) => {
+const deleteProvider = async (providerId) => {
   try {
     await providersModel.findByIdAndDelete(providerId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createProvider,
+  getAllProviders,
+  updateProvider,
+  deleteProvider
+}

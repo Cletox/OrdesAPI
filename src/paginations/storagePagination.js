@@ -11,15 +11,13 @@ const getStorageCount = async (filters = []) => {
   }
 };
 
-const getPaginatedStorage = async (startIndex, limit, filters = {}) => {
+//const getPaginatedStorage = async (startIndex, limit, filters = {}) => {
+  const getPaginatedStorage = async (startIndex, limit) => {
   try {
+
     let query = storageModel.find();
-
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const storage = await query.skip(startIndex).limit(limit);
+    const storage = await query.skip(startIndex).limit(limit).exec();
+    console.log('Fetched storages:', storage);
     return storage;
   } catch (error) {
     throw new Error("Failed to get paginated storages");

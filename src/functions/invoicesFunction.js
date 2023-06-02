@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-exports.createInvoice = async (invoiceData) => {
+const createInvoice = async (invoiceData) => {
   try {
     const createdInvoice = await invoicesModel.create(invoiceData);
     return createdInvoice;
@@ -16,7 +16,7 @@ exports.createInvoice = async (invoiceData) => {
   }
 };
 
-exports.getAllInvoices = async () => {
+const getAllInvoices = async () => {
   try {
     const invoices = await invoicesModel.find();
     return invoices;
@@ -25,7 +25,7 @@ exports.getAllInvoices = async () => {
   }
 };
 
-exports.updateInvoice = async (invoiceId, updateData) => {
+const updateInvoice = async (invoiceId, updateData) => {
   try {
     const updatedInvoice = await invoicesModel.findByIdAndUpdate(
       invoiceId,
@@ -38,10 +38,17 @@ exports.updateInvoice = async (invoiceId, updateData) => {
   }
 };
 
-exports.deleteInvoice = async (invoiceId) => {
+const deleteInvoice = async (invoiceId) => {
   try {
     await invoicesModel.findByIdAndDelete(invoiceId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createInvoice,
+  getAllInvoices,
+  updateInvoice,
+  deleteInvoice
+}

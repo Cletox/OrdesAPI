@@ -13,13 +13,9 @@ const getProviderCount = async (filters = []) => {
 
 const getPaginatedProvider = async (startIndex, limit, filters = {}) => {
   try {
-    let query = providersModel.find();
+    let query = providersModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const provider = await query.skip(startIndex).limit(limit);
+    const provider = await query.skip(startIndex).limit(limit).exec();
     return provider;
   } catch (error) {
     throw new Error("Failed to get paginated providers");

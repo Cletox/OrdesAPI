@@ -13,13 +13,9 @@ const getTransactionsCount = async (filters = []) => {
 
 const getPaginatedTransactions = async (startIndex, limit, filters = {}) => {
   try {
-    let query = transactionsModel.find();
+    let query = transactionsModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const transactions = await query.skip(startIndex).limit(limit);
+    const transactions = await query.skip(startIndex).limit(limit).exec();
     return transactions;
   } catch (error) {
     throw new Error("Failed to get paginated transactions");

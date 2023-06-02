@@ -17,13 +17,9 @@ const getPaginatedTransactionsCredits = async (
   filters = {}
 ) => {
   try {
-    let query = transactionsCreditsModel.find();
+    let query = transactionsCreditsModel.find(filters);
 
-    if (filters.length) {
-      query = query.and(filters);
-    }
-
-    const transactionsCredits = await query.skip(startIndex).limit(limit);
+    const transactionsCredits = await query.skip(startIndex).limit(limit).exec();
     return transactionsCredits;
   } catch (error) {
     throw new Error("Failed to get paginated transactions credits");

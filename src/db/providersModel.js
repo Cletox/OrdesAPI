@@ -4,10 +4,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ProviderSchema = new Schema({
-  _id: { type: String, required: true },
+  //_id: { type: mongoose.Types.ObjectId, required: true },
   nameCompany: { type: String, required: true },
   email: { type: String, required: true },
-  phonesArray: [{ type: String, required: true }],
+  phonesArray: [{ type: String, required: true, unique: true}],
   nameContact: { type: String, required: true },
   direction: { type: String, required: true },
   city: { type: String, required: true },
@@ -15,7 +15,7 @@ const ProviderSchema = new Schema({
   country: { type: String, required: true },
 });
 
-const providersModel = mongoose.model("provider", ProviderSchema); //"storage" mongo-collection
+const providersModel = mongoose.model("provider", ProviderSchema); //"provider" mongo-collection
 
 module.exports = {
   providersModel,

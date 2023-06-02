@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-exports.createOrderBuy = async (orderData) => {
+const createOrderBuy = async (orderData) => {
   try {
     const createdOrder = await ordersBuyModel.create(orderData);
     return createdOrder;
@@ -16,7 +16,7 @@ exports.createOrderBuy = async (orderData) => {
   }
 };
 
-exports.getAllOrdersBuy = async () => {
+const getAllOrdersBuy = async () => {
   try {
     const orders = await ordersBuyModel.find();
     return orders;
@@ -25,7 +25,7 @@ exports.getAllOrdersBuy = async () => {
   }
 };
 
-exports.updateOrderBuy = async (orderId, updateData) => {
+const updateOrderBuy = async (orderId, updateData) => {
   try {
     const updatedOrder = await ordersBuyModel.findByIdAndUpdate(
       orderId,
@@ -38,10 +38,17 @@ exports.updateOrderBuy = async (orderId, updateData) => {
   }
 };
 
-exports.deleteOrderBuy = async (orderId) => {
+const deleteOrderBuy = async (orderId) => {
   try {
     await ordersBuyModel.findByIdAndDelete(orderId);
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+module.exports = {
+  createOrderBuy,
+  getAllOrdersBuy,
+  updateOrderBuy,
+  deleteOrderBuy
+}

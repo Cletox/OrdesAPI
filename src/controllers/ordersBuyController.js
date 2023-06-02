@@ -5,11 +5,10 @@ const {
   getPaginatedOrdersBuy,
 } = require("../paginations/ordersBuyPagination");
 
-exports.createOrdersBuy = async (req, res) => {
+const createOrdersBuy = async (req, res) => {
   try {
-    const { _id, placeId, name } = req.body;
-    const storageData = { _id, placeId, name };
-
+    const storageData = { productList, providerId, createdAt, updatedAt } = req.body;
+    
     // Validate the request body against the schema
     const storage = new storageModel(storageData);
     const validationError = storage.validateSync();
@@ -31,7 +30,7 @@ exports.createOrdersBuy = async (req, res) => {
   }
 };
 
-exports.getOrdersBuy = async (req, res) => {
+const getOrdersBuy = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 10; // Number of items per page
@@ -60,7 +59,7 @@ exports.getOrdersBuy = async (req, res) => {
   }
 };
 
-exports.updateOrdersBuy = async (req, res) => {
+const updateOrdersBuy = async (req, res) => {
   try {
     const ordersBuyId = req.params._id;
     const {
@@ -93,7 +92,7 @@ exports.updateOrdersBuy = async (req, res) => {
   }
 };
 
-exports.deleteOrdersBuy = async (req, res) => {
+const deleteOrdersBuy = async (req, res) => {
   try {
     const ordersBuyId = req.params._id;
 
@@ -107,3 +106,11 @@ exports.deleteOrdersBuy = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+module.exports = {
+  createOrdersBuy,
+  getOrdersBuy,
+  updateOrdersBuy,
+  deleteOrdersBuy
+}
