@@ -1,31 +1,34 @@
 const productFunctions = require("../functions/productFunctions");
 const { Product } = require("../db/productsModel");
-// const {
-//   getProductsCount,
-//   getPaginatedProducts,
-// } = require("../paginations/productPagination");
-// const { default: mongoose } = require("mongoose");
-// const { ObjectId } = mongoose.Types;
 
 const createProduct = async (req, res) => {
   try {
-    const productData = ({ name, model, brand, categoryId } = req.body);
+    
+    
+     const productData = new Product ({
+      name:req.body.name,
+      model: req.body.model,
+      brand: req.body.brand,
+      categoryId:  req.body.categoryId
+    })
 
     // Validate the request body against the schema
-    const product = new productModel(productData);
-    const validationError = product.validateSync();
+    console.log(req.body);
+    const validationError = productData.validateSync();
     if (validationError) {
       return res.json({
         status: 400,
         message: validationError.message,
       });
     }
-    const createdProduct = await productFunctions.createProduct(productData);
+    const createdProduct = await Product.create(productData);
     return res.json({
       msg: "Product added",
       status: 201,
       data: createdProduct,
     });
+
+   
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to create product" });
@@ -41,8 +44,6 @@ const getAllProducts = async (req, res) => {
     const totalPages = Math.ceil(productsCount / limit);
 
     const criteria = req.params.criteria || {};
-    // const products = await getPaginatedProducts(startIndex, limit, criteria);
-    // Otro método:
     const products = await Product.find(criteria).skip(startIndex).limit(limit).exec();
 
     return res.json({
@@ -65,13 +66,18 @@ const getAllProducts = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
-    const { name, model, brand, categoryId } = req.body;
-    const updateData = { name, model, brand, categoryId };
 
-    const updatedProduct = await productFunctions.updateProduct(
-      productId,
-      updateData
+    const dataToUpdate =  ({
+      name:req.body.name,
+      model: req.body.model,
+      brand: req.body.brand,
+      categoryId:  req.body.categoryId
+    })
+    
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params._id,
+      dataToUpdate,
+      { runValidators: true },
     );
 
     return res.json({
@@ -87,9 +93,7 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
-
-    await productFunctions.deleteProduct(productId);
-
+    await Product.findByIdAndDelete(productId);
     return res.json({
       msg: "eliminated product ",
       status: 204,

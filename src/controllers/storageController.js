@@ -40,6 +40,7 @@ const getStorages = async (req, res) => {
     //const criteria = req.params.criteria;
        
    //const storages = await getPaginatedStorage(startIndex, limit);
+//const storages = await getPaginatedStorage(startIndex, limit);
 const storages = await getPaginatedStorage(startIndex, limit);
 console.log('Storages in controller:', storages);
     return res.json({

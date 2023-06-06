@@ -14,8 +14,8 @@ const productController = require("../controllers/productController");
 
 // product routers
 router.get("/products", productController.getAllProducts);
-// router.post("/products", productController.createProduct);
-// router.put("/products", productController.updateProduct);
+router.post("/products", productController.createProduct);
+router.put("/products/:_id", productController.updateProduct);
 // router.delete("/products", productController.deleteProduct);
 
 // //storage routers
