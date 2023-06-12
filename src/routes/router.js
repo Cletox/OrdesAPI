@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/productController");
+
 // const storageController = require("../controllers/storageController");
 // const categoriesInventoryController = require("../controllers/categoriesInventoryController");
 // const inventoryController = require("../controllers/inventoryController");
@@ -12,11 +13,13 @@ const productController = require("../controllers/productController");
 // const categoryTransactionController = require("../controllers/categoryTransactionsController");
 // const transactionController = require("../controllers/transactionController");
 
-// product routers
+router.get("/", (req, res) => {
+  res.send("Pagina principal, /");
+});
 router.get("/products", productController.getAllProducts);
 router.post("/products", productController.createProduct);
 router.put("/products/:_id", productController.updateProduct);
-// router.delete("/products", productController.deleteProduct);
+router.delete("/products/:_id", productController.deleteProduct);
 
 // //storage routers
 // router.post("/storage", storageController.createStorage);

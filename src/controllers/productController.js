@@ -1,34 +1,24 @@
-const productFunctions = require("../functions/productFunctions");
 const { Product } = require("../db/productsModel");
-
+const validation = require("../validations/generalValidation");
+const { Account } = require("../db/accounts_delete_requests");
+const mongoose = require('mongoose');
 const createProduct = async (req, res) => {
   try {
-    
-    
-     const productData = new Product ({
-      name:req.body.name,
-      model: req.body.model,
-      brand: req.body.brand,
-      categoryId:  req.body.categoryId
-    })
+    const { data } = req.body;
 
-    // Validate the request body against the schema
-    console.log(req.body);
-    const validationError = productData.validateSync();
-    if (validationError) {
+    if (!validation.validateObjectValues(data, validation.regexToFullNames)) {
+      return res
+        .status(400)
+        .json({ msg: "invalid product data, check values" });
+    } else{
+      const createdProduct = await Product.create(data);
       return res.json({
-        status: 400,
-        message: validationError.message,
+        msg: "Product added",
+        status: 201,
+        data: createdProduct,
       });
     }
-    const createdProduct = await Product.create(productData);
-    return res.json({
-      msg: "Product added",
-      status: 201,
-      data: createdProduct,
-    });
-
-   
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to create product" });
@@ -37,19 +27,51 @@ const createProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; // Current page number
-    const limit = parseInt(req.query.limit) || 10; // Number of items per page
-    const startIndex = (page - 1) * limit; // Starting index of the current page
-    const productsCount = await Product.countDocuments();
+    let { page, limit } = req.params;
+    const filters = req.query.filters ? JSON.parse(decodeURIComponent(req.query.filters)) : {};
+    if (filters._id) {
+      filters._id =  new mongoose.Types.ObjectId(filters._id);
+    }
+    
+   if (
+      !validation.validateNumber(req.query.page) ||
+      !validation.validateNumber(req.query.limit)
+    ) {
+      return res
+        .status(400)
+        .json({
+          msg: "Make sure to set valid numbers into page and limits values",
+        });
+    } else {
+      page = req.params.page ?? 1;
+      limit = req.params.limit ?? 10;
+    }
+    
+    const pipeline = [
+      { $match:  filters  },
+      { $group: { _id: null, productsCount: { $sum: 1 }, data: { $push: "$$ROOT" } } },
+    { $project: { "data._id": 0, "data.__v": 0 } },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
+    ];
+    
+    const [productData] = await Product.aggregate(pipeline);
+
+    if (!productData) {
+      return res.json({
+        msg: "This search process retrieve an empty result. invalid /filters/ or inexistent data collection",
+        status: 200,
+        totalCount: 0,
+        data: [],
+      });
+    }
+
+    const { productsCount, data } = productData;
     const totalPages = Math.ceil(productsCount / limit);
-
-    const criteria = req.params.criteria || {};
-    const products = await Product.find(criteria).skip(startIndex).limit(limit).exec();
-
     return res.json({
       msg: "List of paginated products.",
       status: 200,
-      data: products,
+      data: data,
       meta: {
         totalItems: productsCount,
         itemsPerPage: limit,
@@ -66,22 +88,23 @@ const getAllProducts = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-
-    const dataToUpdate =  ({
-      name:req.body.name,
-      model: req.body.model,
-      brand: req.body.brand,
-      categoryId:  req.body.categoryId
-    })
-    
+    const { data } = req.body;
+    if (!validation.validateObjectId(req.params._id)) {
+      return res.status(400).json({ msg: "Make sure to set a valid _id" });
+    }
+    if (!validation.validateObjectValues(data, validation.regexToFullNames)) {
+      return res
+        .status(400)
+        .json({ msg: "invalid product data, check values to update" });
+    }
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params._id,
-      dataToUpdate,
-      { runValidators: true },
+      data,
+      { runValidators: true }
     );
 
     return res.json({
-      msg: "updated product ",
+      msg: "updated product: ",
       status: 200,
       data: updatedProduct,
     });
@@ -92,12 +115,15 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const productId = req.params.id;
-    await Product.findByIdAndDelete(productId);
-    return res.json({
-      msg: "eliminated product ",
-      status: 204,
-    });
+    if (!validation.validateObjectId(req.params._id)) {
+      return res.status(400).json({ msg: "Make sure to set a valid _id" });
+    } else {
+      await Product.findByIdAndDelete(req.params._id);
+      return res.json({
+        msg: "product eliminated",
+        status: 204,
+      });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -107,5 +133,5 @@ module.exports = {
   createProduct,
   getAllProducts,
   updateProduct,
-  deleteProduct,
+  deleteProduct
 };

@@ -1,4 +1,3 @@
-const express = require("express");
 const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
@@ -12,7 +11,9 @@ const productsSchema = new Schema({
     required: true,
     ref: "category",
   },
-});
+},
+{ versionKey: false }
+);
 
 const clientSchema = new Schema({
   name: { type: String, required: true },
