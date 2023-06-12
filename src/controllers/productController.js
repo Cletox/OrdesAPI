@@ -2,6 +2,8 @@ const { Product } = require("../db/productsModel");
 const validation = require("../validations/generalValidation");
 const { Account } = require("../db/accounts_delete_requests");
 const mongoose = require('mongoose');
+
+//forcing update process
 const createProduct = async (req, res) => {
   try {
     const { data } = req.body;
